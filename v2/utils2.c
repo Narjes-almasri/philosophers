@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naalmasr <naalmasr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macbook <macbook@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 14:55:05 by naalmasr          #+#    #+#             */
-/*   Updated: 2025/08/31 19:38:27 by naalmasr         ###   ########.fr       */
+/*   Updated: 2025/09/02 21:02:09 by macbook          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*free_table(t_data *data)
+void	*free_table(t_info *data)
 {
 	unsigned int	i;
 
@@ -35,7 +35,7 @@ void	*free_table(t_data *data)
 	return (NULL);
 }
 
-void	destroy_mutexes(t_data *data)
+void	destroy_mutexes(t_info *data)
 {
 	unsigned int	i;
 
@@ -59,14 +59,14 @@ int	msg(char *str, char *detail, int exit_no)
 	return (exit_no);
 }
 
-int	error_failure(char *str, char *details, t_data *data)
+int	error_failure(char *str, char *details, t_info *data)
 {
 	if (data != NULL)
 		free_table(data);
 	return (msg(str, details, 0));
 }
 
-void	*error_null(char *str, char *details, t_data *data)
+void	*error_null(char *str, char *details, t_info *data)
 {
 	if (data != NULL)
 		free_table(data);

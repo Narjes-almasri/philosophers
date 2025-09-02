@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naalmasr <naalmasr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macbook <macbook@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 14:55:11 by naalmasr          #+#    #+#             */
-/*   Updated: 2025/08/31 18:45:00 by naalmasr         ###   ########.fr       */
+/*   Updated: 2025/09/02 18:50:48 by macbook          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	ft_atoi(char *str)
 	return ((int)nbr);
 }
 
-int	is_correct_input(int ac, char **av)
+int	is_valid_input(int ac, char **av)
 {
 	int	i;
 	int	num;
