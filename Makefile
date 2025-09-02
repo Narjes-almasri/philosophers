@@ -1,5 +1,5 @@
 NAME	= philo
-CFLAGS	= -Werror -Wall -Wextra -pthread
+CFLAGS	= -Werror -Wall -Wextra
 
 SRC = init.c \
       main.c \

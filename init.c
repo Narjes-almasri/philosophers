@@ -6,12 +6,12 @@
 /*   By: naalmasr <naalmasr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 14:53:52 by naalmasr          #+#    #+#             */
-/*   Updated: 2025/08/31 19:38:14 by naalmasr         ###   ########.fr       */
+/*   Updated: 2025/09/01 17:03:10 by naalmasr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
+//Allocate and initialize one mutex per fork.
 static pthread_mutex_t	*init_forks(t_data *data)
 {
 	pthread_mutex_t	*forks;
@@ -29,7 +29,7 @@ static pthread_mutex_t	*init_forks(t_data *data)
 	}
 	return (forks);
 }
-
+//The ft_min/ft_max assignment is the key to preventing deadlock!
 static void	assign_forks(t_philo *philo)
 {
 	philo->fork[0] = philo->id;
@@ -41,7 +41,7 @@ static void	assign_forks(t_philo *philo)
 	}
 }
 
-static t_philo	**init_philosophers(t_data *data)
+static t_philo	**initialize_philos(t_data *data)
 {
 	t_philo			**philos;
 	unsigned int	i;
@@ -67,16 +67,16 @@ static t_philo	**init_philosophers(t_data *data)
 	return (philos);
 }
 
-static bool	init_global_mutexes(t_data *data)
+static int	init_global_mutexes(t_data *data)
 {
 	data->fork_locks = init_forks(data);
 	if (!data->fork_locks)
-		return (false);
+		return (0);
 	if (pthread_mutex_init(&data->sim_stop_lock, 0) != 0)
 		return (error_failure("%sCould not create mutex.\n", NULL, data));
 	if (pthread_mutex_init(&data->write_lock, 0) != 0)
 		return (error_failure("%sCould not create mutex.\n", NULL, data));
-	return (true);
+	return (1);
 }
 
 t_data	*init_data(int ac, char **av)
@@ -93,11 +93,11 @@ t_data	*init_data(int ac, char **av)
 	data->must_eat_count = -1;
 	if (ac - 1 == 5)
 		data->must_eat_count = ft_atoi(av[5]);
-	data->philos = init_philosophers(data);
+	data->philos = initialize_philos(data);
 	if (!data->philos)
 		return (NULL);
 	if (!init_global_mutexes(data))
 		return (NULL);
-	data->sim_stop = false;
+	data->sim_stop = 0;
 	return (data);
 }

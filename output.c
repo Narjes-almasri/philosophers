@@ -6,21 +6,19 @@
 /*   By: naalmasr <naalmasr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 14:54:00 by naalmasr          #+#    #+#             */
-/*   Updated: 2025/08/31 19:38:56 by naalmasr         ###   ########.fr       */
+/*   Updated: 2025/09/01 17:02:49 by naalmasr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "philo.h"
 
 static void	print_status_debug(t_philo *philo, char *str, t_status status)
 {
-	if (status == GOT_FORK_1)
+	if (status == TAKING_FORK_1)
 		printf("[%10ld]\t%03d\t%s: fork [%d]\n",
 			current_time() - philo->data->start_time,
 			philo->id + 1, str, philo->fork[0]);
-	else if (status == GOT_FORK_2)
+	else if (status == TAKING_FORK_2)
 		printf("[%10ld]\t%03d\t%s: fork [%d]\n",
 			current_time() - philo->data->start_time,
 			philo->id + 1, str, philo->fork[1]);
@@ -40,9 +38,9 @@ static void	write_status_debug(t_philo *philo, t_status status)
 		print_status_debug(philo, "is sleeping", status);
 	else if (status == THINKING)
 		print_status_debug(philo, "is thinking", status);
-	else if (status == GOT_FORK_1)
+	else if (status == TAKING_FORK_1)
 		print_status_debug(philo, "has taken a fork", status);
-	else if (status == GOT_FORK_2)
+	else if (status == TAKING_FORK_2)
 		print_status_debug(philo, "has taken a fork", status);
 }
 
@@ -52,15 +50,15 @@ static void	print_status(t_philo *philo, char *str)
 		philo->id + 1, str);
 }
 
-void	write_status(t_philo *philo, bool reaper_report, t_status status)
+void	write_status(t_philo *philo, int reaper_report, t_status status)
 {
 	pthread_mutex_lock(&philo->data->write_lock);
-	if (has_simulation_stopped(philo->data) == true && reaper_report == false)
+	if (has_simulation_stopped(philo->data) == 1 && reaper_report == 0)
 	{
 		pthread_mutex_unlock(&philo->data->write_lock);
 		return ;
 	}
-	if (DEBUG_FORMATTING == true)
+	if (DEBUG_FORMATTING == 1)
 	{
 		write_status_debug(philo, status);
 		pthread_mutex_unlock(&philo->data->write_lock);
@@ -74,7 +72,7 @@ void	write_status(t_philo *philo, bool reaper_report, t_status status)
 		print_status(philo, "is sleeping");
 	else if (status == THINKING)
 		print_status(philo, "is thinking");
-	else if (status == GOT_FORK_1 || status == GOT_FORK_2)
+	else if (status == TAKING_FORK_1 || status == TAKING_FORK_2)
 		print_status(philo, "has taken a fork");
 	pthread_mutex_unlock(&philo->data->write_lock);
 }

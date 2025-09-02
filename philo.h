@@ -6,7 +6,7 @@
 /*   By: naalmasr <naalmasr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 18:00:35 by naalmasr          #+#    #+#             */
-/*   Updated: 2025/08/31 20:13:36 by naalmasr         ###   ########.fr       */
+/*   Updated: 2025/09/01 17:04:22 by naalmasr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,10 @@ typedef struct s_data
 	pthread_mutex_t		*fork_locks;
 	t_philo				**philos;
 }	t_data;
-
-typedef struct s_philo
+/*
+ Key Insight: Each philosopher has pointers to fork mutexes, not the mutexes themselves. This allows multiple philosophers to reference the same physical forks!
+*/
+typedef struct s_philo //Per-philosopher data
 {
 	unsigned int		id;
 	unsigned int		times_ate;
@@ -68,19 +70,19 @@ typedef struct s_philo
 	time_t				last_meal;
 	t_data				*data;
 }	t_philo;
-
-typedef enum s_status
+/*struct contains all shared data that multiple threads need to access. Each piece of shared data gets its own mutex for fine-grained locking.*/
+typedef enum s_status //shared simulation state cointains actions 
 {
 	DIED = 0,
 	EATING = 1,
 	SLEEPING = 2,
 	THINKING = 3,
-	GOT_FORK_1 = 4,
-	GOT_FORK_2 = 5
+	TAKING_FORK_1 = 4,
+	TAKING_FORK_2 = 5
 }	t_status;
 
 int		main(int ac, char **av);
-int	is_correct_input(int ac, char **av);
+int		is_valid_input(int ac, char **av);
 int		ft_atoi(char *str);
 void	*error_null(char *str, char *details, t_data *data);
 int		error_failure(char *str, char *details, t_data *data);
@@ -94,7 +96,7 @@ time_t	current_time(void);
 void	*philosopher(void *data);
 void	*monitor(void *src);
 void	write_outcome(t_data *data);
-void	write_status(t_philo *philo, bool reaper_report, t_status status);
-bool	has_simulation_stopped(t_data *data);
+void	write_status(t_philo *philo, int reaper_report, t_status status);
+int	has_simulation_stopped(t_data *data);
 
 #endif

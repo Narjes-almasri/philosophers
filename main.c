@@ -6,17 +6,17 @@
 /*   By: naalmasr <naalmasr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 14:53:43 by naalmasr          #+#    #+#             */
-/*   Updated: 2025/08/31 19:37:47 by naalmasr         ###   ########.fr       */
+/*   Updated: 2025/09/01 17:42:43 by naalmasr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 // Starts the simulation by creating philosopher threads and a monitor thread.
-static bool	start_sim(t_data *data)
+static int	start_sim(t_data *data)
 {
 	unsigned int	i;
-
+// Set a future start time so all threads start together (helps with fairness)
 	data->start_time = current_time() + (data->num_philos * 2 * 10);
 	i = 0;
 	while (i < data->num_philos)
@@ -32,7 +32,7 @@ static bool	start_sim(t_data *data)
 				&monitor, data) != 0)
 			return (error_failure("%sCould not create thread.\n", NULL, data));
 	}
-	return (true);
+	return (1);
 }
 
 static void	stop_sim(t_data	*data)
@@ -62,7 +62,7 @@ int	main(int ac, char **av)
 		printf("invaled number of arguments!!!!!!!!🩴\n");
 		return (1);
 	}
-	if (!is_correct_input(ac, av))
+	if (!is_valid_input(ac, av))
 		return (1);
 	data = init_data(ac, av);
 	if (!data)
