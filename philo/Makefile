@@ -1,14 +1,15 @@
 NAME	= philo
 CFLAGS	= -Werror -Wall -Wextra
 
-SRC = init.c \
+SRC = ini.c \
       main.c \
-      monitor_simulation.c \
-      output.c \
-      philo.c \
-      time.c \
-      utils.c \
-      utils2.c
+      monitor_and_sim.c \
+      prints.c \
+      philos.c \
+      sim.c \
+      routine.c \
+      checking.c\
+      clean.c
 
 OBJ = $(SRC:.c=.o)
 

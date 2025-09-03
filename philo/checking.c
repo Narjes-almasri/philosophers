@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   checking.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbook <macbook@student.42.fr>            +#+  +:+       +#+        */
+/*   By: naalmasr <naalmasr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/31 14:55:11 by naalmasr          #+#    #+#             */
-/*   Updated: 2025/09/02 18:50:48 by macbook          ###   ########.fr       */
+/*   Created: 2025/07/03 09:04:22 by naalmasr          #+#    #+#             */
+/*   Updated: 2025/09/03 10:16:26 by naalmasr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "philos.h"
 
-#include "philo.h"
-
-static int	check_digits(char *str)
+int	check_digits(char *str)
 {
 	int	i;
 
 	i = 0;
-	// printf("str is %s\n", str);
 	while (str[i])
 	{
 		if (str[i] < '0' || str[i] > '9')
@@ -54,16 +52,14 @@ int	is_valid_input(int ac, char **av)
 	while (i < ac)
 	{
 		num = ft_atoi(av[i]);
-		// printf("num is %d\n", num);
-		// printf("check_digits(av[i] is %d\n", check_digits(av[i]));
-		if ((!check_digits(av[i])) || (i != 1 && num == -1))//why i != 1 because number of philosophers should not be -1 also the 1 (num of philo ) is checked below in the next if
+		if (!check_digits(av[i]) || (i != 1 && num == -1))
 		{
 			printf("🔢 Error : the input must be digits only 🔢\n");
 			return (0);
 		}
-		if (i == 1 && (num <= 0 || num > 200))//to check number of philosophers
+		if (i == 1 && (num <= 0 || num > 200))
 		{
-			printf("❌ you are not allowed to create this number of philosophers ❌\n");
+			printf("❌ you are not allowed to create this number of philos❌\n");
 			return (0);
 		}
 		i++;

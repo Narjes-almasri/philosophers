@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbook <macbook@student.42.fr>            +#+  +:+       +#+        */
+/*   By: naalmasr <naalmasr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/31 18:00:23 by naalmasr          #+#    #+#             */
-/*   Updated: 2025/09/02 21:11:29 by macbook          ###   ########.fr       */
+/*   Created: 2025/07/03 09:06:08 by naalmasr          #+#    #+#             */
+/*   Updated: 2025/09/03 10:18:20 by naalmasr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "philos.h"
 
-#include "philo.h"
-
-static void perform_eat_sleep(t_philo *p)
+void	perform_eat_sleep(t_philo *p)
 {
 	pthread_mutex_lock(&p->data->fork_locks[p->fork[0]]);
 	write_status(p, 0, TAKING_FORK_1);
@@ -36,9 +35,10 @@ static void perform_eat_sleep(t_philo *p)
 	p_sleep(p->data, p->data->time_to_sleep);
 }
 
-static void do_think(t_philo *p, int quiet)
+void	do_think(t_philo *p, int quiet)
 {
-	time_t think_time;
+	time_t	think_time;
+
 	pthread_mutex_lock(&p->meal_time_lock);
 	think_time = (p->data->time_to_die
 			- (current_time() - p->last_meal)
@@ -53,38 +53,4 @@ static void do_think(t_philo *p, int quiet)
 	if (quiet == 0)
 		write_status(p, 0, THINKING);
 	p_sleep(p->data, think_time);
-}
-
-static void *single_philo(void *arg)
-{
-	t_philo *p = (t_philo *)arg;
-	pthread_mutex_lock(&p->data->fork_locks[p->fork[0]]);
-	write_status(p, 0, TAKING_FORK_1);
-	p_sleep(p->data, p->data->time_to_die);
-	write_status(p, 0, DIED);
-	pthread_mutex_unlock(&p->data->fork_locks[p->fork[0]]);
-	return NULL;
-}
-
-void *philosopher(void *input)
-{
-	t_philo *p = (t_philo *)input;
-	if (p->data->must_eat_count == 0)
-		return NULL;
-	pthread_mutex_lock(&p->meal_time_lock);
-	p->last_meal = p->data->start_time;
-	pthread_mutex_unlock(&p->meal_time_lock);
-	sim_start_delay(p->data->start_time);
-	if (p->data->time_to_die == 0)
-		return NULL;
-	if (p->data->num_philos == 1)
-		return single_philo(p);
-	else if (p->id % 2)
-		do_think(p, 1);
-	while (is_simulation_stopped(p->data) == 0)
-	{
-		perform_eat_sleep(p);
-		do_think(p, 0);
-	}
-	return NULL;
 }

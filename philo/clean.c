@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils2.c                                           :+:      :+:    :+:   */
+/*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbook <macbook@student.42.fr>            +#+  +:+       +#+        */
+/*   By: naalmasr <naalmasr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/31 14:55:05 by naalmasr          #+#    #+#             */
-/*   Updated: 2025/09/02 21:02:09 by macbook          ###   ########.fr       */
+/*   Created: 2025/07/03 09:00:24 by naalmasr          #+#    #+#             */
+/*   Updated: 2025/09/03 10:13:41 by naalmasr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philos.h"
 
 void	*free_table(t_info *data)
 {
@@ -18,14 +18,14 @@ void	*free_table(t_info *data)
 
 	if (!data)
 		return (NULL);
-	if (data->fork_locks != NULL)
+	if (data->fork_locks)
 		free(data->fork_locks);
-	if (data->philos != NULL)
+	if (data->philos)
 	{
 		i = 0;
 		while (i < data->num_philos)
 		{
-			if (data->philos[i] != NULL)
+			if (data->philos[i])
 				free(data->philos[i]);
 			i++;
 		}
@@ -50,26 +50,26 @@ void	destroy_mutexes(t_info *data)
 	pthread_mutex_destroy(&data->sim_stop_lock);
 }
 
-int	msg(char *str, char *detail, int exit_no)
+int	message(char *str, char *detail, int exit_no)
 {
-	if (!detail)
-		printf(str, "philo :");
-	else
+	if (detail)
 		printf(str, "philo :", detail);
+	else
+		printf(str, "philo :");
 	return (exit_no);
 }
 
-int	error_failure(char *str, char *details, t_info *data)
+int	error_fail(char *str, char *details, t_info *data)
 {
-	if (data != NULL)
+	if (data)
 		free_table(data);
-	return (msg(str, details, 0));
+	return (message(str, details, 0));
 }
 
-void	*error_null(char *str, char *details, t_info *data)
+void	*null_errors(char *str, char *details, t_info *data)
 {
-	if (data != NULL)
+	if (data)
 		free_table(data);
-	msg(str, details, 1);
+	message(str, details, 1);
 	return (NULL);
 }
