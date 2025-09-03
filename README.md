@@ -2,7 +2,7 @@
 <div align="center">
   <!-- Logo -->
   <a href="https://github.com/Narjes-almasri/philosophers/blob/main/screen/image.png">
-  <img src="README_files/logo.png" alt="Logo" width="80" height="80">
+  <img src="https://github.com/Narjes-almasri/philosophers/blob/main/screen/image.png" alt="Logo" width="80" height="80">
   </a>
 
   <!-- Project Name -->
