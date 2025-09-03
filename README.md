@@ -1,7 +1,7 @@
 <a name="readme-top"></a>
 <div align="center">
   <!-- Logo -->
-  <a href="https://github.com/Narjes-almasri/philosophers/tree/main/screen">
+  <a href="https://github.com/Narjes-almasri/philosophers/blob/main/screen/image.png">
   <img src="README_files/logo.png" alt="Logo" width="80" height="80">
   </a>
 
